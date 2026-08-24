@@ -19,6 +19,13 @@ See `README.md` for install and run instructions when present.
 - Not claimed as production-ready unless README and tests prove it.
 - Mobile smoke / emulator acceptance is separate and toolchain-dependent.
 
+## Current product truth
+
+This is a local sample-analytics surface for comparing a few popular routes
+across 24h, 7d, and 30d ranges. It shows authored sample KPI values and a small
+route table; it does not fetch traffic, authenticate a team, or claim live
+analytics.
+
 ## Source README excerpt
 
 ```

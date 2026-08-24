@@ -1,26 +1,51 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
+:root { --night: #101a24; --panel: #172737; --paper: #f1eee4; --muted: #9ca9ad; --line: #405666; --yellow: #f0c84b; --cyan: #8dd0ce; --red: #e06f52; }
+* { box-sizing: border-box; }
+html { background: var(--night); }
+body { margin: 0; background: var(--night); color: var(--paper); font-family: var(--font-geist-sans), "Trebuchet MS", sans-serif; }
+button { cursor: pointer; font: inherit; }
+button:focus-visible { outline: 2px solid var(--yellow); outline-offset: 3px; }
+.route-shell { min-height: 100vh; padding: 18px; }
+.route-frame { max-width: 1240px; margin: 0 auto; }
+.route-topbar { display: flex; justify-content: space-between; align-items: center; min-height: 46px; border-bottom: 1px solid var(--line); color: var(--muted); font: 10px var(--font-geist-mono), monospace; letter-spacing: .13em; }
+.route-mark { color: var(--paper); text-decoration: none; font-weight: 700; letter-spacing: .12em; }
+.route-mark span { color: var(--yellow); }
+.route-topbar span:last-child { color: var(--red); }
+.route-intro { display: flex; justify-content: space-between; align-items: end; padding: 78px 0 68px; }
+.route-intro h1 { margin: 0; font-size: clamp(52px, 8vw, 108px); font-weight: 500; letter-spacing: -.08em; line-height: .88; }
+.route-intro h1 em { color: var(--yellow); font-family: Georgia, serif; font-style: italic; font-weight: 400; letter-spacing: -.1em; }
+.route-intro p { max-width: 445px; margin: 28px 0 0; color: #b9c6c9; font-size: 15px; line-height: 1.55; }
+.route-stamp { display: grid; place-items: center; align-content: center; width: 132px; height: 132px; transform: rotate(-5deg); border: 1px solid var(--yellow); color: var(--yellow); text-align: center; }
+.route-stamp span { font: 9px var(--font-geist-mono), monospace; letter-spacing: .12em; }
+.route-stamp b { margin: 7px 0; font: 27px var(--font-geist-mono), monospace; font-weight: 400; }
+.route-board { border: 1px solid var(--line); background: var(--panel); }
+.board-head, .board-foot { display: flex; justify-content: space-between; gap: 20px; padding: 17px 20px; color: var(--muted); font: 10px var(--font-geist-mono), monospace; letter-spacing: .1em; }
+.board-head { border-bottom: 1px solid var(--line); }
+.board-head span:first-child, .board-foot span:first-child { color: var(--paper); }
+.board-head span:last-child { color: var(--yellow); }
+.field-label { color: var(--yellow); font: 10px var(--font-geist-mono), monospace; letter-spacing: .12em; }
+.range-strip { display: flex; align-items: center; gap: 8px; padding: 17px 20px; border-bottom: 1px solid var(--line); }
+.range-button { padding: 8px 12px; border: 1px solid var(--line); background: transparent; color: var(--muted); font: 10px var(--font-geist-mono), monospace; }
+.range-button:hover, .range-button.active { border-color: var(--yellow); background: var(--yellow); color: var(--night); }
+.route-summary { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--line); }
+.route-summary > div { min-height: 145px; padding: 22px 20px; border-right: 1px solid var(--line); }
+.route-summary > div:last-child { border-right: 0; }
+.route-summary strong, .route-summary small { display: block; }
+.route-summary strong { margin-top: 18px; color: var(--paper); font: 500 36px var(--font-geist-mono), monospace; letter-spacing: -.08em; }
+.route-summary small { margin-top: 6px; color: var(--muted); font-size: 12px; }
+.route-list { padding: 0 20px; }
+.route-row { display: grid; grid-template-columns: 42px 1.1fr 1fr 82px 78px 58px; gap: 14px; align-items: center; min-height: 82px; border-bottom: 1px solid var(--line); }
+.route-number, .route-visits, .route-movement { color: var(--muted); font: 10px var(--font-geist-mono), monospace; }
+.route-name strong, .route-name small { display: block; }
+.route-name strong { color: var(--paper); font: 500 16px var(--font-geist-mono), monospace; }
+.route-name small { margin-top: 5px; color: var(--muted); font-size: 11px; }
+.route-bar { height: 9px; border: 1px solid var(--line); background: var(--night); }
+.route-bar span { display: block; height: 100%; background: var(--cyan); }
+.route-visits { color: var(--paper); text-align: right; }
+.route-status { font: 9px var(--font-geist-mono), monospace; letter-spacing: .06em; }
+.route-status.rising { color: var(--cyan); }.route-status.steady { color: var(--yellow); }.route-status.quiet { color: var(--muted); }
+.route-movement { color: var(--cyan); text-align: right; }
+.board-foot { border-top: 1px solid var(--line); }
+.route-footer { display: flex; justify-content: space-between; padding: 20px 0; color: var(--muted); font: 10px var(--font-geist-mono), monospace; letter-spacing: .1em; }
+@media (max-width: 780px) { .route-shell { padding: 12px; } .route-topbar span:nth-child(2) { display: none; } .route-intro { padding: 58px 0 45px; } .route-intro p { max-width: 295px; } .route-stamp { width: 92px; height: 92px; } .route-stamp b { font-size: 20px; } .route-stamp span { font-size: 7px; } .range-strip { flex-wrap: wrap; } .route-summary { grid-template-columns: 1fr; } .route-summary > div { min-height: 100px; border-right: 0; border-bottom: 1px solid var(--line); } .route-summary > div:last-child { border-bottom: 0; } .route-summary strong { margin-top: 10px; } .route-list { padding: 0 12px; } .route-row { grid-template-columns: 30px minmax(0, 1fr) 70px; gap: 10px; padding: 14px 0; } .route-bar { grid-column: 2 / 4; grid-row: 2; } .route-visits { grid-column: 3; grid-row: 1; } .route-status, .route-movement { grid-column: 2; } .route-movement { grid-column: 3; } .route-footer { flex-direction: column; gap: 10px; } }
