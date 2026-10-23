@@ -1,53 +1,41 @@
-# bookchaowalit-popular-pages-frontend — Product brief
+# Route Board (popular pages) — Product truth
 
-**Slug:** `bookchaowalit-website/bookchaowalit-popular-pages-frontend`  
-**Generated:** 2026-08-11 (bulk Book Dev closeout)  
-**Status:** starter / portfolio boundary
+> Inferred from the code and copy (no user interview). Checked against the portfolio card claims review
+> (`portfolio-site-web/docs/audits/CARD-CLAIMS-REVIEW-2026-10.md`, row `popular-pages`, evidence Prototype) on
+> 2026-10-23.
 
-## Purpose
+## What it is
 
-Portfolio repository under Book Dev. This brief records ownership and the
-current honest status so the nested tree is not an empty shell in the task
-system.
+A client-only demo of a "popular pages" board over hard-coded sample traffic for four routes.
 
-## Runnable path
+## Who it is for
 
-See `README.md` for install and run instructions when present.
+A portfolio visitor who wants to see how a small route-performance board reads.
 
-## Limits
+## What works today
 
-- Not claimed as production-ready unless README and tests prove it.
-- Mobile smoke / emulator acceptance is separate and toolchain-dependent.
+1. Pick a read window (24H, 7D, 30D); each has its own authored sample.
+2. The board ranks routes busiest first and computes the total, the top route and its share of the window; bars are
+   scaled to the busiest route. Movement and status are authored per window.
+3. `/api/mcp` answers JSON-RPC with `get_board` and `get_route` over the same sample (marked `sample: true`).
+4. Front-end and server errors go to Sentry (errors only, personal data stripped) when `NEXT_PUBLIC_SENTRY_DSN` is set.
 
-## Current product truth
+## What does not work (and must not be claimed)
 
-This is a local sample-analytics surface for comparing a few popular routes
-across 24h, 7d, and 30d ranges. It shows authored sample KPI values and a small
-route table; it does not fetch traffic, authenticate a team, or claim live
-analytics.
+- No page-view aggregation, trending widget, category breakdown or use across 100+ projects (claims removed from the
+  portfolio card in the 2026-10 review). The UI says "SAMPLE TRAFFIC" and "NO LIVE CONNECTION".
+- No storage, account or analytics beyond Vercel Analytics.
 
-## Source README excerpt
+## Live URL and deploy state
 
-```
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+- Live: https://popular-pages.bookchaowalit.com (HTTP 200 on 2026-10-23).
+- The Vercel project `bookchaowalit-popular-pages-frontend` is deployed only by CLI (last production 2026-10-23 12:11,
+  CLI deploy of commit fa65e91, the Next 16.4.2 security patch) and its Git link names the old repository
+  `bookchaowalit/bookchaowalit-popular-pages-frontend`, so a push to `main` does not deploy. The live site lags `main`
+  (window switch changes only a label, template MCP route, no Sentry) until the owner reconnects Vercel Git to this
+  repository (owner action D9). `NEXT_PUBLIC_SENTRY_DSN` is already set on the Vercel project (Sentry project
+  `marketing-popular-pages-web`, org `personal-yu0`).
 
-## Getting Started
+## Boundaries
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize an
-```
+- Browser-only apart from the stateless `/api/mcp` route.
