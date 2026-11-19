@@ -6,10 +6,10 @@ html, body { margin: 0; background: var(--ds-bg); }
 /* Popular Pages: movement carries a sign, an arrow and a colour (green up, red down), never colour alone. */
 .pp-move { color: var(--ds-green); font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .pp-move[data-down="true"] { color: var(--ds-red); }
-.pp-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 16px; margin: 8px 0 0; }
+.pp-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 7em), 1fr)); gap: 12px 16px; margin: 8px 0 0; }
 .pp-facts div { display: grid; gap: 2px; min-width: 0; }
 .pp-facts dt { color: var(--ds-muted); font-size: 13px; }
-.pp-facts dd { margin: 0; font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.pp-facts dd { margin: 0; overflow-wrap: anywhere; font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; }
 .ds-callout .pp-facts dd span { color: inherit; font-size: inherit; }
 .ds-callout .pp-facts dd .pp-move { color: var(--ds-green); }
 .ds-callout .pp-facts dd .pp-move[data-down="true"] { color: var(--ds-red); }
