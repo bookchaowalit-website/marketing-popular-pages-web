@@ -8,9 +8,10 @@ describe("resolveSiteUrl", () => {
     expect(resolveSiteUrl(undefined)).toBe(DEFAULT_SITE_URL);
     expect(resolveSiteUrl("  ")).toBe(DEFAULT_SITE_URL);
   });
-  it("normalises trailing slashes and keeps a base path", () => {
+  it("normalises a trailing slash and rejects a base path (the app has no basePath, so /app/sitemap.xml would 404)", () => {
     expect(resolveSiteUrl("https://example.test/")).toBe("https://example.test");
-    expect(resolveSiteUrl("https://example.test/app/")).toBe("https://example.test/app");
+    expect(() => resolveSiteUrl("https://example.test/app/")).toThrow(/origin only/);
+    expect(() => resolveSiteUrl("https://example.test/?x=1")).toThrow(/origin only/);
   });
   it("rejects relative and non-http values", () => {
     expect(() => resolveSiteUrl("example.test")).toThrow(/absolute http\(s\) URL/);

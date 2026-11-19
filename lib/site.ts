@@ -7,7 +7,7 @@ export const DEFAULT_SITE_URL = "https://popular-pages.bookchaowalit.com";
 export const PUBLIC_ROUTES = ["/"] as const;
 
 /**
- * Resolve the canonical origin used by metadata, robots.txt, sitemap.xml and the
+ * Resolve the canonical origin (no path: the app is served at the root) used by metadata, robots.txt, sitemap.xml and the
  * MCP app info. Unset or blank falls back to DEFAULT_SITE_URL; anything that is
  * not an absolute http(s) URL fails loudly instead of emitting broken URLs.
  */
@@ -23,7 +23,11 @@ export function resolveSiteUrl(raw: string | undefined): string {
   if (url.protocol !== "https:" && url.protocol !== "http:") {
     throw new Error(`NEXT_PUBLIC_SITE_URL must use http or https, got "${url.protocol}"`);
   }
-  return `${url.origin}${url.pathname}`.replace(/\/+$/, "");
+  // next.config.ts sets no basePath: the app is served at the root, so a path here would point robots.txt at a 404.
+  if (url.pathname !== "/" || url.search || url.hash) {
+    throw new Error(`NEXT_PUBLIC_SITE_URL must be an origin only (the app is served at the root), got "${value}"`);
+  }
+  return url.origin;
 }
 
 export const SITE_URL = resolveSiteUrl(process.env.NEXT_PUBLIC_SITE_URL);

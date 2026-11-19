@@ -38,5 +38,5 @@ scan on every push and PR to `main`.
 - `lib/sentry.ts` + `instrumentation*.ts`: error reporting to Sentry, errors only, personal data stripped; off when
   `NEXT_PUBLIC_SENTRY_DSN` is unset.
 - `/more-projects` is a permanent (308) redirect to https://bookchaowalit.com/ (`next.config.ts`); the footer links there too.
-- `lib/site.ts` + `app/robots.ts` + `app/sitemap.ts`: canonical origin https://popular-pages.bookchaowalit.com (override with `NEXT_PUBLIC_SITE_URL`).
+- `lib/site.ts` + `app/robots.ts` + `app/sitemap.ts`: canonical origin https://popular-pages.bookchaowalit.com (override with `NEXT_PUBLIC_SITE_URL`, an origin only: there is no basePath, so a path is refused).
 - `app/dashboard-shell.css`, `components/dashboard-shell.tsx`, `components/dashboard-chart.tsx`: the shared Dashboard shell, copied in (see `DASHBOARD.md`); `components/popular-board.tsx` is the page.
