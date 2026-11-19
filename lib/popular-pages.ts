@@ -42,9 +42,9 @@ export function isRange(value: unknown): value is Range {
   return typeof value === "string" && (RANGES as readonly string[]).includes(value);
 }
 
-/** Routes for a window, busiest first. */
-export function rankRoutes(range: Range): RouteSample[] {
-  return [...SAMPLES[range]].sort((a, b) => b.visits - a.visits);
+/** Routes for a window, busiest first. Pass another sample set to render or test other data (an empty window). */
+export function rankRoutes(range: Range, samples: Record<Range, RouteSample[]> = SAMPLES): RouteSample[] {
+  return [...samples[range]].sort((a, b) => b.visits - a.visits);
 }
 
 export function totalVisits(routes: RouteSample[]): number {
@@ -72,9 +72,16 @@ export function formatMovement(percent: number): string {
   return `${sign}${String(Math.abs(Math.round(percent))).padStart(2, "0")}%`;
 }
 
-export function boardSummary(range: Range) {
-  const routes = rankRoutes(range);
+export function boardSummary(range: Range, samples: Record<Range, RouteSample[]> = SAMPLES) {
+  const routes = rankRoutes(range, samples);
   const total = totalVisits(routes);
   const top = routes[0];
   return { routes, total, top, topShare: top ? shareOfTotal(top.visits, total) : 0 };
+}
+
+/** Movement in words for screen readers and tooltips: "up 14%", "down 7%", "no change". */
+export function movementWords(percent: number): string {
+  const value = Math.abs(Math.round(percent));
+  if (value === 0) return "no change";
+  return `${percent < 0 ? "down" : "up"} ${value}%`;
 }

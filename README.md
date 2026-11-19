@@ -1,4 +1,4 @@
-# Route Board (popular pages)
+# Popular Pages
 
 A route board over authored sample traffic: four portfolio routes with visits, movement and a status, for three read
 windows (24H, 7D, 30D). Switching the window switches the sample; total, top route, its share and the bar widths are
@@ -21,7 +21,7 @@ npm run dev
 ## Checks
 
 ```bash
-npm test           # Vitest: board arithmetic, MCP route, home page render, Sentry scrubbing
+npm test           # Vitest: board arithmetic, MCP route, mounted board (happy-dom), site/robots/sitemap, redirect, Sentry
 npm run lint
 npm run typecheck
 npm run build
@@ -37,4 +37,6 @@ scan on every push and PR to `main`.
 - `app/api/mcp/route.ts`: stateless JSON-RPC endpoint with `get_board` and `get_route` over that sample.
 - `lib/sentry.ts` + `instrumentation*.ts`: error reporting to Sentry, errors only, personal data stripped; off when
   `NEXT_PUBLIC_SENTRY_DSN` is unset.
-- `app/more-projects/page.tsx`: shared portfolio link page (copied per repository, not a package).
+- `/more-projects` is a permanent (308) redirect to https://bookchaowalit.com/ (`next.config.ts`); the footer links there too.
+- `lib/site.ts` + `app/robots.ts` + `app/sitemap.ts`: canonical origin https://popular-pages.bookchaowalit.com (override with `NEXT_PUBLIC_SITE_URL`).
+- `app/dashboard-shell.css`, `components/dashboard-shell.tsx`, `components/dashboard-chart.tsx`: the shared Dashboard shell, copied in (see `DASHBOARD.md`); `components/popular-board.tsx` is the page.

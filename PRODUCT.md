@@ -1,4 +1,4 @@
-# Route Board (popular pages) — Product truth
+# Popular Pages — Product truth
 
 > Inferred from the code and copy (no user interview). Checked against the portfolio card claims review
 > (`portfolio-site-web/docs/audits/CARD-CLAIMS-REVIEW-2026-10.md`, row `popular-pages`, evidence Prototype) on
@@ -24,7 +24,7 @@ A portfolio visitor who wants to see how a small route-performance board reads.
 
 - No page-view aggregation, trending widget, category breakdown or use across 100+ projects (claims removed from the
   portfolio card in the 2026-10 review). The UI says "SAMPLE TRAFFIC" and "NO LIVE CONNECTION".
-- No storage, account or analytics beyond Vercel Analytics.
+- No storage, account or analytics of any kind (Vercel Analytics and Speed Insights were removed 2026-11-19).
 
 ## Live URL and deploy state
 

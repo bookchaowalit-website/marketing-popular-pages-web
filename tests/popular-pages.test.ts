@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { RANGES, SAMPLES, boardSummary, formatMovement, formatVisits, isRange, rankRoutes, relativeShare, shareOfTotal, totalVisits } from "@/lib/popular-pages";
+import { RANGES, SAMPLES, boardSummary, formatMovement, formatVisits, isRange, movementWords, rankRoutes, relativeShare, shareOfTotal, totalVisits } from "@/lib/popular-pages";
 
 describe("read window", () => {
   it("changes the data the board reads", () => {
@@ -41,5 +41,13 @@ describe("board arithmetic", () => {
     expect(formatMovement(18)).toBe("+18%");
     expect(formatMovement(-4)).toBe("−04%");
     expect(formatMovement(0)).toBe("+00%");
+  });
+});
+
+describe("movementWords", () => {
+  it("says the direction in words", () => {
+    expect(movementWords(14)).toBe("up 14%");
+    expect(movementWords(-7.4)).toBe("down 7%");
+    expect(movementWords(0)).toBe("no change");
   });
 });
