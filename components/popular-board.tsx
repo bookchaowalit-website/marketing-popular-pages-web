@@ -31,7 +31,8 @@ export function PopularBoard({ samples }: { samples: Record<Range, RouteSample[]
   const { routes, total, top, topShare } = boardSummary(range, samples);
   const period = RANGE_LABELS[range];
   const selected = routes.find((route) => route.path === picked) ?? top;
-  const rising = routes.filter((route) => route.status === "RISING").length;
+  // Counts the pages whose visits went up against the period before (the movement shown on each row), not the Rising tag.
+  const rising = routes.filter((route) => route.movement > 0).length;
 
   return (
     <div className="ds">
@@ -50,7 +51,7 @@ export function PopularBoard({ samples }: { samples: Record<Range, RouteSample[]
         <ul className="ds-stats" aria-label={`Last ${period} at a glance`}>
           <Stat label="Page visits" value={formatVisits(total)} note={`across ${routes.length} pages`} />
           <Stat label="Top page" value={top ? top.path : "—"} note={top ? `${topShare}% of visits` : "no visits yet"} />
-          <Stat label="Rising pages" value={rising} note="against the period before" />
+          <Stat label="Pages up" value={rising} note="visits up on the period before" />
         </ul>
 
         <div className="ds-grid">
@@ -72,7 +73,11 @@ export function PopularBoard({ samples }: { samples: Record<Range, RouteSample[]
                   <li key={route.path}>
                     <button type="button" className="ds-row" aria-pressed={selected?.path === route.path} onClick={() => setPicked(route.path)}>
                       <span className="ds-row-name">{route.path}</span>
-                      <span className="ds-row-detail">{route.label} · {shareOfTotal(route.visits, total)}% · <Movement percent={route.movement} /></span>
+                      <span className="ds-row-detail">
+                        {route.label} · {shareOfTotal(route.visits, total)}% · <Movement percent={route.movement} />
+                        {/* The bar is aria-hidden, so its value (against the busiest page, not the total) is said here. */}
+                        <span className="ds-sr pp-bar-value"> · bar {relativeShare(route.visits, routes)}% of the busiest page</span>
+                      </span>
                       <span className="ds-row-value">{formatVisits(route.visits)}</span>
                       <span className="ds-meter" aria-hidden="true"><span style={{ width: `${relativeShare(route.visits, routes)}%` }} /></span>
                     </button>

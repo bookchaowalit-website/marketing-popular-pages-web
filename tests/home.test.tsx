@@ -41,7 +41,7 @@ describe("popular pages", () => {
   it("opens on 7 days with totals, the top page selected and falls marked as falls", () => {
     mount(<Home />);
     expect(button("7 days").getAttribute("aria-pressed")).toBe("true");
-    expect(stats()).toEqual(["Page visits9,790across 4 pages", "Top page/42.9% of visits", "Rising pages1against the period before"]);
+    expect(stats()).toEqual(["Page visits9,790across 4 pages", "Top page/42.9% of visits", "Pages up3visits up on the period before"]);
     const rows = [...host.querySelectorAll("button.ds-row")];
     expect(rows.map((row) => row.querySelector(".ds-row-name")?.textContent)).toEqual(["/", "/projects", "/domains", "/about"]);
     expect(rows[0].getAttribute("aria-pressed")).toBe("true");
@@ -67,9 +67,24 @@ describe("popular pages", () => {
     expect(stats()[1]).toBe("Top page/48.4% of visits");
   });
 
+  it("counts pages up from the shown movement and says each bar's value to screen readers", () => {
+    mount(<Home />);
+    // 7 days: /, /projects and /about are up (+18%, +11%, +6%), /domains is down, so 3 (the Rising tag is on one page only).
+    expect(stats()[2]).toBe("Pages up3visits up on the period before");
+    const rows = [...host.querySelectorAll("button.ds-row")];
+    // The bar is aria-hidden; its value against the busiest page is in the row's text.
+    expect(rows[0].querySelector(".ds-meter")?.getAttribute("aria-hidden")).toBe("true");
+    expect(rows.map((row) => row.querySelector(".pp-bar-value")?.textContent)).toEqual([
+      " · bar 100% of the busiest page", " · bar 67% of the busiest page", " · bar 46% of the busiest page", " · bar 20% of the busiest page",
+    ]);
+    press(button("30 days"));
+    const up = [...host.querySelectorAll("button.ds-row .pp-move")].filter((move) => (move as HTMLElement).dataset.down === "false").length;
+    expect(stats()[2]).toBe(`Pages up${up}visits up on the period before`);
+  });
+
   it("says so when a period has no visits", () => {
     mount(<PopularBoard samples={{ ...SAMPLES, "7D": [] }} />);
-    expect(stats()).toEqual(["Page visits0across 0 pages", "Top page—no visits yet", "Rising pages0against the period before"]);
+    expect(stats()).toEqual(["Page visits0across 0 pages", "Top page—no visits yet", "Pages up0visits up on the period before"]);
     expect(host.textContent).toContain("No page visits in the last 7 days");
     expect(host.textContent).toContain("No page to show");
     expect(host.querySelectorAll("button.ds-row")).toHaveLength(0);
