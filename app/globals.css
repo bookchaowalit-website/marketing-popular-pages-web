@@ -17,3 +17,11 @@ html, body { margin: 0; background: var(--ds-bg); }
 .ds-callout .pp-facts dd .ds-pill[data-tone="green"] { color: var(--ds-green); }
 .ds-callout .pp-facts dd .ds-pill[data-tone="grey"] { color: var(--ds-grey); }
 .ds-callout .pp-facts dd .ds-pill[data-tone="amber"] { color: var(--ds-amber); }
+/* The jump from the picked row to Selected page shows only while the grid is one column (the shell's 899px break). */
+.pp-jump { display: none; }
+@media (max-width: 899px) {
+  .pp-jump { display: flex; align-items: center; min-height: 44px; padding: 0 16px; color: var(--ds-accent); font-size: 14px; font-weight: 600; }
+}
+#selected-page { scroll-margin-top: calc(var(--ds-top-height, 64px) + 16px); }
+#selected-page:focus { outline: none; }
+#selected-page:focus-visible { outline: 3px solid var(--ds-focus); outline-offset: 2px; }

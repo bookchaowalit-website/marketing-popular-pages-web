@@ -81,13 +81,17 @@ export function PopularBoard({ samples }: { samples: Record<Range, RouteSample[]
                       <span className="ds-row-value">{formatVisits(route.visits)}</span>
                       <span className="ds-meter" aria-hidden="true"><span style={{ width: `${relativeShare(route.visits, routes)}%` }} /></span>
                     </button>
+                    {/* Phones stack Selected page under the list; this says the picked page's trend in place and jumps there. */}
+                    {selected?.path === route.path ? (
+                      <a className="pp-jump" href="#selected-page">{STATUS[route.status].word} · see details<span className="ds-sr"> for {route.path}</span></a>
+                    ) : null}
                   </li>
                 ))}
               </ul>
             )}
           </section>
 
-          <section className="ds-panel" aria-labelledby="page-heading">
+          <section id="selected-page" tabIndex={-1} className="ds-panel" aria-labelledby="page-heading">
             <div className="ds-panel-head">
               <div>
                 <h2 id="page-heading">Selected page</h2>

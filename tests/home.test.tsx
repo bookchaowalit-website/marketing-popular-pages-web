@@ -3,7 +3,8 @@ import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { renderToString } from "react-dom/server";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import Home from "@/app/page";
+import Home, { metadata as homeMetadata } from "@/app/page";
+import { SITE_URL } from "@/lib/site";
 import { PopularBoard } from "@/components/popular-board";
 import { SAMPLES } from "@/lib/popular-pages";
 
@@ -65,6 +66,24 @@ describe("popular pages", () => {
     expect($(".pp-facts")?.textContent).toContain("TrendQuiet");
     press(button("24 hours"));
     expect(stats()[1]).toBe("Top page/48.4% of visits");
+  });
+
+  it("points from the picked row to the Selected page panel, which sits below the list on phones", () => {
+    mount(<Home />);
+    expect(host.querySelectorAll("a.pp-jump")).toHaveLength(1);
+    press(button("/projects"));
+    const jumps = [...host.querySelectorAll<HTMLAnchorElement>("a.pp-jump")];
+    expect(jumps).toHaveLength(1);
+    expect(jumps[0].closest("li")?.querySelector(".ds-row-name")?.textContent).toBe("/projects");
+    expect(jumps[0].textContent).toBe("Rising · see details for /projects");
+    expect(jumps[0].getAttribute("href")).toBe("#selected-page");
+    const panel = host.querySelector("#selected-page") as HTMLElement;
+    expect(panel.getAttribute("tabindex")).toBe("-1");
+    expect(panel.textContent).toContain("/projects");
+  });
+
+  it("names the home page's canonical URL on SITE_URL", () => {
+    expect(homeMetadata.alternates?.canonical).toBe(`${SITE_URL}/`);
   });
 
   it("counts pages up from the shown movement and says each bar's value to screen readers", () => {
